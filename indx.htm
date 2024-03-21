@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Camera Video Feed</title>
+</head>
+<style>
+    body{
+        padding-top: 2rem;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+
+    }
+    .videoImage{
+        border: 15px solid gold;
+
+
+    }
+    button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 10px; /* Rounded corners */
+}
+
+/* Style for the button when hovered */
+button:hover {
+  background-color: #45a049; /* Darker green */
+}
+
+/* Style for the button when pressed */
+button:active {
+  background-color: #3e8e41;
+}
+.alert{
+    background: red;
+    text-align: center;
+    color: rgb(0, 0, 0);
+    margin: 1rem;
+    font-weight: 700;
+     padding: 1rem;
+}
+</style>
+<body>
+    <h1>FEED</h1>
+    <div id="msg">
+       
+    </div>
+    <video id="videoElement" class="videoImage" autoplay></video>
+    <button onclick="startCamera()">Start </button>
+    <button onclick="stopCamera()" style="background-color: red;">Stop</button>
+    
+    <script>
+        let videoStream;
+
+        function startCamera() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    videoStream = stream;
+                    let video = document.getElementById('videoElement');
+                    video.srcObject = stream;
+                })
+                .catch(function(err) {
+                    console.error('Error accessing camera:', err);
+                });
+        }
+
+        function stopCamera() {
+            if (videoStream) {
+                videoStream.getTracks().forEach(track => track.stop());
+   let msg = document.getElementById('msg');
+   msg.innerHTML = ` <div class="alert">
+           You're so innocent!  We have recorded your video!
+            
+        </div>`
+            }
+        }
+    </script>
+</body>
+</html>
